@@ -3,44 +3,56 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 
-// Init db
+// Dependency Injection
+const mongo = require('./database');
+const factoryModels = require('./models');
+const factoryRepositories = require('./repositories');
+const factoryServices = require('./services');
+const factoryControllers = require('./controllers');
+const factoryRouters = require('./routers');
+const { createRoutes } = require('./routers/routes');
 
-// Init repositories
+class App {
+  constructor() {
+    this.app = express();
 
-// Init services
+    // secure apps by setting some HTTP headers
+    this.app.use(helmet());
 
-// Init controllers
+    // enable CORS - Cross Origin Resource Sharing
+    this.app.use(cors());
 
-// Init routes
+    // parse body params and attache them to req.body
+    this.app.use(bodyParser.json());
+    this.app.use(
+      bodyParser.urlencoded({
+        extended: false,
+      }),
+    );
 
-module.exports = (router) => {
-  const app = express();
+    this._initApp();
 
-  // secure apps by setting some HTTP headers
-  app.use(helmet());
+    // error handler
+    this.app.use((err, req, res, next) => {
+      console.error(err);
+      res
+        .status(err.status || 500)
+        .json({ error: true, message: err.detail || err.message });
+    });
+  }
 
-  // enable CORS - Cross Origin Resource Sharing
-  app.use(cors());
+  _initApp() {
+    const models = factoryModels(mongo);
+    const repositories = factoryRepositories(models);
+    const services = factoryServices(repositories);
+    const controllers = factoryControllers(services);
+    const routers = factoryRouters(controllers);
+    this.app.use('/api', createRoutes(routers));
+  }
 
-  // parse body params and attache them to req.body
-  app.use(bodyParser.json());
-  app.use(
-    bodyParser.urlencoded({
-      extended: false,
-    }),
-  );
+  create() {
+    return this.app;
+  }
+}
 
-  // routes
-  app.use(router);
-
-  // error handler
-  /* eslint no-unused-vars: 0 */
-  app.use((err, req, res, next) => {
-    console.error(err);
-    res
-      .status(err.status || 500)
-      .json({ error: true, msg: err.detail || err.message });
-  });
-
-  return app;
-};
+module.exports = new App().create();
