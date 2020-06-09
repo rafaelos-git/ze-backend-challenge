@@ -13,8 +13,6 @@ const helmet = require('helmet');
 
 // Init routes
 
-const { conn, connectDb } = require('./db');
-
 module.exports = (router) => {
   const app = express();
 
