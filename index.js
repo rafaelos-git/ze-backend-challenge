@@ -1,0 +1,8 @@
+require('dotenv').config({
+  path: '.env',
+});
+const app = require('./server/app');
+
+const port = process.env.PORT || 3000;
+// eslint-disable-next-line
+app.listen(port, '0.0.0.0', console.log(`Listening to 0.0.0.0:${port}`));

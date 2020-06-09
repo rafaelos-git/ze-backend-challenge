@@ -1,0 +1,14 @@
+// Find pdvs that the point is in
+db.pdvs.findOne({ coverageArea: { $geoIntersects: { $geometry: { type: "Point", coordinates: [ -43.27, -23 ] } } } })
+
+// Get pdvs distance
+db.pdvs.aggregate([
+   {
+     $geoNear: {
+        near: { type: "Point", coordinates: [ -43.27, -23 ] },
+        distanceField: "distance",
+        spherical: true
+     }
+   },
+   { $sort: {"distance": 1} },
+])
