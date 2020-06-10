@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 
+// Documentation
+const docs = require('./docs');
+
 // Dependency Injection
 const mongo = require('./database');
 const factoryModels = require('./models');
@@ -29,6 +32,9 @@ class App {
         extended: false,
       }),
     );
+
+    // Serve docs
+    this.app.use('/docs', docs.serve, docs.spec);
 
     this._initApp();
 

@@ -1,0 +1,186 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API developed to code backend challenge to position at Ze Delivery",
+    "version": "1.0.0",
+    "title": "Ze Delivery Backend Challenge API",
+    "contact": {
+      "email": "angelo.bz.souza@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "partnes",
+      "description": "Create and search partnes"
+    }
+  ],
+  "paths": {
+    "/partners": {
+      "post": {
+        "tags": [
+          "partnes"
+        ],
+        "summary": "Create a new partner",
+        "operationId": "createPartner",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "pdv",
+            "description": "Pdv object to be create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pdv"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Pdv"
+            }
+          }
+        }
+      }
+    },
+    "/partners/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Partner ID",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "partnes"
+        ],
+        "summary": "Finds a partner by its id",
+        "operationId": "findPartnerById",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Pdv"
+            }
+          }
+        }
+      }
+    },
+    "/partners/nearest/{lng}/{lat}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "lng",
+          "required": true,
+          "description": "Pdv longitude",
+          "type": "number"
+        },
+        {
+          "in": "path",
+          "name": "lat",
+          "required": true,
+          "description": "Pdv latitude",
+          "type": "number"
+        }
+      ],
+      "get": {
+        "tags": [
+          "partnes"
+        ],
+        "summary": "Finds a partner by its id",
+        "operationId": "getNearestPdv",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Pdv"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Pdv": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Partner unique id",
+          "example": "1"
+        },
+        "tradingName": {
+          "type": "string",
+          "description": "Partner trading name",
+          "example": "Vaga Dev Backend Ze Delivery"
+        },
+        "ownerName": {
+          "type": "string",
+          "description": "Partner owner name",
+          "example": "Angelo Souza"
+        },
+        "document": {
+          "type": "string",
+          "description": "Partner unique document as CNPJ",
+          "example": "1432132123891/0001"
+        },
+        "coverageArea": {
+          "type": "object",
+          "description": "Region covered by partner. Is a GeoJSON MultiPolygon",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "GeoJSON type MultiPolygon",
+              "example": "MultiPolygon"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "address": {
+          "type": "object",
+          "description": "Partner address coordinates in GeoJSON format",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "GeoJSON type Point",
+              "example": "Point"
+            },
+            "coordinates": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
