@@ -1,4 +1,4 @@
-class PdvsGetByIdService {
+class GetByIdService {
   constructor({ pdvRepository }) {
     this.pdvRepository = pdvRepository;
   }
@@ -15,4 +15,4 @@ class PdvsGetByIdService {
   }
 }
 
-module.exports = PdvsGetByIdService;
+module.exports = GetByIdService;

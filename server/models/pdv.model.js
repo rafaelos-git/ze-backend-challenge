@@ -2,6 +2,7 @@ class PdvModel {
   constructor(database) {
     const schemaOptions = {
       collection: 'pdvs',
+      versionKey: false,
     };
 
     const multiPolygonSchema = {
@@ -33,6 +34,7 @@ class PdvModel {
         id: {
           type: String,
           requires: true,
+          unique: true,
         },
         tradingName: {
           type: String,

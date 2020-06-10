@@ -7,7 +7,9 @@ class PdvsRoutes {
 
   create() {
     return new Router()
-      .get('/:id', this.pdvsController.getById.bind(this.pdvsController));
+      .get('/:id', this.pdvsController.getById.bind(this.pdvsController))
+      .get('/nearest/search', this.pdvsController.searchPartnes.bind(this.pdvsController))
+      .post('/', this.pdvsController.create.bind(this.pdvsController));
   }
 }
 
