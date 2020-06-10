@@ -55,6 +55,8 @@ class PdvModel {
       schemaOptions,
     );
 
+    PdvSchema.index({ address: '2dsphere' });
+
     this.PdvModel = database.model('Pdv', PdvSchema);
   }
 

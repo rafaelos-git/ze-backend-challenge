@@ -45,7 +45,7 @@ class PdvsController {
     try {
       const { lng, lat } = req.query;
 
-      const partnes = await this.pdvService.searchPartnes.execute({ lng, lat });
+      const partnes = await this.pdvService.searchNearestPartner.execute({ lng, lat });
 
       res.json(partnes);
     } catch (e) {

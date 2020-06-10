@@ -12,8 +12,8 @@ class PdvsRepository {
   }
 
 
-  async searchPartnes({ lng, lat }) {
-    return this.Pdv.aggregate([
+  async searchNearestPartner({ lng, lat }) {
+    const [partner] = await this.Pdv.aggregate([
       {
         $geoNear: {
           near: { type: 'Point', coordinates: [lng, lat] },
@@ -25,6 +25,8 @@ class PdvsRepository {
       { $sort: { distance: 1 } },
       { $limit: 1 },
     ]);
+
+    return partner;
   }
 
   async getNextId() {

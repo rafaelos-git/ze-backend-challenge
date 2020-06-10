@@ -24,6 +24,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
-    "start:dev": "cross-env NODE_ENV=development nodemon --watch server --exec node index.js"
+    "start:dev": "cross-env NODE_ENV=development nodemon --watch server --exec node index.js",
+    "database:seed": "cross-env NODE_ENV=development node -r dotenv/config ./server/database/seed/seed.js"
   }
 }
