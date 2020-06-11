@@ -1,9 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const helmet = require('helmet');
-
-// Documentation
+const middlewares = require('./middlewares');
 const docs = require('./docs');
 
 // Dependency Injection
@@ -19,19 +15,8 @@ class App {
   constructor() {
     this.app = express();
 
-    // secure apps by setting some HTTP headers
-    this.app.use(helmet());
-
-    // enable CORS - Cross Origin Resource Sharing
-    this.app.use(cors());
-
-    // parse body params and attache them to req.body
-    this.app.use(bodyParser.json());
-    this.app.use(
-      bodyParser.urlencoded({
-        extended: false,
-      }),
-    );
+    // Add middlewares before routes
+    this.app.use(middlewares.preMiddlewares());
 
     // Serve docs
     this.app.use('/docs', docs.serve, docs.spec);
