@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const errorHandler = require('./errorHandler');
 
+morgan.token('params', (req) => JSON.stringify(req.params));
 morgan.token('body', (req) => JSON.stringify(req.body));
 
 const before = () => [
@@ -20,6 +21,7 @@ const before = () => [
   }),
 
   // log requests
+  morgan('Req params: :params'),
   morgan('Req body: :body'),
   morgan('dev'),
 ];
