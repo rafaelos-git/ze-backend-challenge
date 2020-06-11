@@ -12,21 +12,21 @@ class PdvsRepository {
   }
 
 
-  async searchNearestPartner({ lng, lat }) {
-    const [partner] = await this.Pdv.aggregate([
+  async getNearest({ lng, lat }) {
+    const [nearestPdv] = await this.Pdv.aggregate([
       {
         $geoNear: {
           near: { type: 'Point', coordinates: [lng, lat] },
           distanceField: 'distance',
           spherical: true,
+          query: { coverageArea: { $geoIntersects: { $geometry: { type: 'Point', coordinates: [lng, lat] } } } },
         },
       },
-      { $match: { coverageArea: { $geoIntersects: { $geometry: { type: 'Point', coordinates: [lng, lat] } } } } },
       { $sort: { distance: 1 } },
       { $limit: 1 },
     ]);
 
-    return partner;
+    return nearestPdv;
   }
 
   async getNextId() {

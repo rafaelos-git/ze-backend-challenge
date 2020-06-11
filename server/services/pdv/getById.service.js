@@ -1,3 +1,5 @@
+const { ResourceNotFound } = require('../../middlewares/errorHandler/customExceptions');
+
 class GetByIdService {
   constructor({ pdvRepository }) {
     this.pdvRepository = pdvRepository;
@@ -8,7 +10,7 @@ class GetByIdService {
     const pdv = await this.pdvRepository.findOne({ id: parsedId });
 
     if (!pdv) {
-      throw new Error(`Can not find pdv with id: ${id}`);
+      throw new ResourceNotFound(id);
     }
 
     return pdv;

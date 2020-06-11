@@ -2,10 +2,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const errorHandler = require('./errorHandler');
 
 morgan.token('body', (req) => JSON.stringify(req.body));
 
-const preMiddlewares = () => [
+const before = () => [
   // secure apps by setting some HTTP headers
   helmet(),
 
@@ -18,11 +19,17 @@ const preMiddlewares = () => [
     extended: false,
   }),
 
-  // Log requests
+  // log requests
+  morgan('Req body: :body'),
   morgan('dev'),
-  morgan('Body: :body'),
+];
+
+const after = () => [
+  // error handlers
+  errorHandler(),
 ];
 
 module.exports = {
-  preMiddlewares,
+  before,
+  after,
 };

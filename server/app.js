@@ -16,20 +16,16 @@ class App {
     this.app = express();
 
     // Add middlewares before routes
-    this.app.use(middlewares.preMiddlewares());
+    this.app.use(middlewares.before());
 
     // Serve docs
     this.app.use('/docs', docs.serve, docs.spec);
 
+    // Init app
     this._initApp();
 
-    // error handler
-    this.app.use((err, req, res, next) => {
-      console.error(err);
-      res
-        .status(err.status || 500)
-        .json({ error: true, message: err.detail || err.message });
-    });
+    // Add middlewares after routes
+    this.app.use(middlewares.after());
   }
 
   _initApp() {
@@ -38,7 +34,7 @@ class App {
     const services = factoryServices(repositories);
     const controllers = factoryControllers(services);
     const routers = factoryRouters(controllers);
-    this.app.use('/api', createRoutes(routers));
+    this.app.use(createRoutes(routers));
   }
 
   create() {

@@ -1,4 +1,4 @@
-class PdvsController {
+class PdvController {
   constructor({ pdvService }) {
     this.pdvService = pdvService;
   }
@@ -41,17 +41,17 @@ class PdvsController {
     }
   }
 
-  async searchPartnes(req, res, next) {
+  async getNearest(req, res, next) {
     try {
-      const { lng, lat } = req.query;
+      const { lng, lat } = req.params;
 
-      const partnes = await this.pdvService.searchNearestPartner.execute({ lng, lat });
+      const nearestPdv = await this.pdvService.getNearest.execute({ lng, lat });
 
-      res.json(partnes);
+      res.json(nearestPdv);
     } catch (e) {
       next(e);
     }
   }
 }
 
-module.exports = PdvsController;
+module.exports = PdvController;
