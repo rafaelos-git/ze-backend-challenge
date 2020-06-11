@@ -10,18 +10,18 @@
   },
   "tags": [
     {
-      "name": "partnes",
-      "description": "Create and search partnes"
+      "name": "pdvs",
+      "description": "Create and search pdvs"
     }
   ],
   "paths": {
-    "/partners": {
+    "/v1/pdvs": {
       "post": {
         "tags": [
-          "partnes"
+          "pdvs"
         ],
-        "summary": "Create a new partner",
-        "operationId": "createPartner",
+        "summary": "Create a new pdv",
+        "operationId": "createPdv",
         "consumes": [
           "application/json"
         ],
@@ -41,41 +41,65 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "Successful operation",
             "schema": {
               "$ref": "#/definitions/Pdv"
+            }
+          },
+          "400": {
+            "description": "Bad request error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
       }
     },
-    "/partners/{id}": {
+    "/v1/pdvs/{id}": {
       "parameters": [
         {
           "in": "path",
           "name": "id",
           "required": true,
-          "description": "Partner ID",
-          "type": "string"
+          "description": "Pdv ID",
+          "type": "integer"
         }
       ],
       "get": {
         "tags": [
-          "partnes"
+          "pdvs"
         ],
-        "summary": "Finds a partner by its id",
-        "operationId": "findPartnerById",
+        "summary": "Finds a pdv by its id",
+        "operationId": "findPdvById",
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
               "$ref": "#/definitions/Pdv"
             }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
     },
-    "/partners/nearest/{lng}/{lat}": {
+    "/v1/pdvs/nearest/{lng}/{lat}": {
       "parameters": [
         {
           "in": "path",
@@ -94,15 +118,27 @@
       ],
       "get": {
         "tags": [
-          "partnes"
+          "pdvs"
         ],
-        "summary": "Finds a partner by its id",
+        "summary": "Search nearest pdv considering each pdv's coverage area",
         "operationId": "getNearestPdv",
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
               "$ref": "#/definitions/Pdv"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -112,30 +148,38 @@
   "definitions": {
     "Pdv": {
       "type": "object",
+      "required": [
+        "id",
+        "tradingName",
+        "ownerName",
+        "document",
+        "coverageArea",
+        "address"
+      ],
       "properties": {
         "id": {
           "type": "string",
-          "description": "Partner unique id",
-          "example": "1"
+          "description": "Pdv unique id",
+          "example": "0"
         },
         "tradingName": {
           "type": "string",
-          "description": "Partner trading name",
+          "description": "Pdv trading name",
           "example": "Vaga Dev Backend Ze Delivery"
         },
         "ownerName": {
           "type": "string",
-          "description": "Partner owner name",
+          "description": "Pdv owner name",
           "example": "Angelo Souza"
         },
         "document": {
           "type": "string",
-          "description": "Partner unique document as CNPJ",
-          "example": "1432132123891/0001"
+          "description": "Pdv unique document as CNPJ",
+          "example": "0000000000000/0000"
         },
         "coverageArea": {
           "type": "object",
-          "description": "Region covered by partner. Is a GeoJSON MultiPolygon",
+          "description": "Region covered by pdv. Is a GeoJSON MultiPolygon",
           "properties": {
             "type": {
               "type": "string",
@@ -144,6 +188,7 @@
             },
             "coordinates": {
               "type": "array",
+              "example": [[[[30, 20], [45, 40], [10, 40], [30, 20]]], [[[15, 5], [40, 10], [10, 20], [5, 10], [15, 5]]]],
               "items": {
                 "type": "array",
                 "items": {
@@ -163,7 +208,7 @@
         },
         "address": {
           "type": "object",
-          "description": "Partner address coordinates in GeoJSON format",
+          "description": "PDV address coordinates in GeoJSON format",
           "properties": {
             "type": {
               "type": "string",
@@ -174,10 +219,41 @@
               "type": "array",
               "minItems": 2,
               "maxItems": 2,
+              "example": [0, 0],
               "items": {
                 "type": "number"
               }
             }
+          }
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "description": "Error responses from endpoint",
+      "properties": {
+        "error": {
+          "type": "boolean",
+          "description": "Indicate that there is an error",
+          "example": true
+        },
+        "type": {
+          "type": "string",
+          "description": "Indicate error's type",
+          "enum": [
+            "ResourceNotFound",
+            "NotCoveredArea",
+            "ValidationError",
+            "MongoError",
+            "UnknownError"
+          ],
+          "example": "ValidationError"
+        },
+        "messages": {
+          "type": "array",
+          "description": "Messages to specify errors",
+          "items": {
+            "type": "string"
           }
         }
       }

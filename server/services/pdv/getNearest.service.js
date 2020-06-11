@@ -17,11 +17,10 @@ class GetNearestService {
 
     const {
       distance,
-      _id,
-      ...nearestPdvWithoutDistAndMongoId
+      ...nearestPdvWithoutDist
     } = nearestPdv;
 
-    return { ...nearestPdvWithoutDistAndMongoId };
+    return { ...nearestPdvWithoutDist };
   }
 }
 
