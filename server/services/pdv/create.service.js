@@ -13,7 +13,7 @@ class CreateService {
     document,
   }) {
     const pdv = await this.pdvRepository.create({
-      id: id || await this.pdvRepository.getNextId(),
+      id,
       coverageArea,
       address,
       tradingName,

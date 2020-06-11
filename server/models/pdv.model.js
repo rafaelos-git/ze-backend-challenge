@@ -33,7 +33,7 @@ class PdvModel {
       {
         id: {
           type: String,
-          requires: true,
+          required: true,
           unique: true,
         },
         tradingName: {

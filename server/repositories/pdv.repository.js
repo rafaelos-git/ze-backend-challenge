@@ -28,12 +28,6 @@ class PdvsRepository {
 
     return nearestPdv;
   }
-
-  async getNextId() {
-    const pdvsQt = await this.Pdv.countDocuments();
-    const nextId = pdvsQt + 1;
-    return nextId.toString();
-  }
 }
 
 module.exports = PdvsRepository;
