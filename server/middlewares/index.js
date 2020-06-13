@@ -7,24 +7,32 @@ const errorHandler = require('./errorHandler');
 morgan.token('params', (req) => JSON.stringify(req.params));
 morgan.token('body', (req) => JSON.stringify(req.body));
 
-const before = () => [
-  // secure apps by setting some HTTP headers
-  helmet(),
+const before = () => {
+  const middlewares = [
+    // secure apps by setting some HTTP headers
+    helmet(),
 
-  // enable CORS - Cross Origin Resource Sharing
-  cors(),
+    // enable CORS - Cross Origin Resource Sharing
+    cors(),
 
-  // parse body params and attache them to req.body
-  bodyParser.json(),
-  bodyParser.urlencoded({
-    extended: false,
-  }),
+    // parse body params and attache them to req.body
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: false,
+    }),
+  ];
 
-  // log requests
-  morgan('Req params: :params'),
-  morgan('Req body: :body'),
-  morgan('dev'),
-];
+  if (process.env.NODE_ENV !== 'test') {
+    // Log requests
+    middlewares.push(
+      morgan('Req params: :params'),
+      morgan('Req body: :body'),
+      morgan('dev'),
+    );
+  }
+
+  return middlewares;
+};
 
 const after = () => [
   // error handlers

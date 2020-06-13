@@ -7,10 +7,14 @@
   "author": "Angelo Souza",
   "license": "MIT",
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.21.1",
+    "mocha": "^8.0.1",
     "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
     "prettier": "^2.0.5"
   },
   "dependencies": {
@@ -27,6 +31,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "start:dev": "cross-env NODE_ENV=development nodemon --watch server --exec node index.js",
+    "test": "cross-env NODE_ENV=test mocha",
+    "test:coverage": "cross-env NODE_ENV=test nyc mocha",
     "database:seed": "cross-env NODE_ENV=development node -r dotenv/config ./server/database/seed/seed.js"
   }
 }
