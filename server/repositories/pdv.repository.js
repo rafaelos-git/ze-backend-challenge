@@ -11,7 +11,6 @@ class PdvsRepository {
     return this.Pdv.create(pdv);
   }
 
-
   async getNearest({ lng, lat }) {
     const [nearestPdv] = await this.Pdv.aggregate([
       {
@@ -27,6 +26,11 @@ class PdvsRepository {
     ]);
 
     return nearestPdv;
+  }
+
+  async getNextId() {
+    const lastPdv = await this.Pdv.findOne().sort({ id: -1 });
+    return lastPdv.id + 1;
   }
 }
 

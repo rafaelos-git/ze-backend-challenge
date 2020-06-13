@@ -19,6 +19,7 @@ const seedPdvs = async () => {
   try {
     await seedPdvs();
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log('Error to seed database', e);
   }
 

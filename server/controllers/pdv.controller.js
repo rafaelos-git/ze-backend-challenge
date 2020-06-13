@@ -16,7 +16,6 @@ class PdvController {
   async create(req, res, next) {
     try {
       const {
-        id,
         coverageArea,
         address,
         tradingName,
@@ -26,7 +25,6 @@ class PdvController {
       } = req.body;
 
       const newPdv = await this.pdvService.create.execute({
-        id,
         coverageArea,
         address,
         tradingName,

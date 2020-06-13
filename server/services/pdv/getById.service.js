@@ -6,7 +6,7 @@ class GetByIdService {
   }
 
   async execute({ id }) {
-    const parsedId = id.toString();
+    const parsedId = parseInt(id, 10);
     const pdv = await this.pdvRepository.findOne({ id: parsedId });
 
     if (!pdv) {

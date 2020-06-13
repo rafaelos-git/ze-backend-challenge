@@ -4,7 +4,6 @@ class CreateService {
   }
 
   async execute({
-    id,
     coverageArea,
     address,
     tradingName,
@@ -13,7 +12,7 @@ class CreateService {
     document,
   }) {
     const pdv = await this.pdvRepository.create({
-      id,
+      id: await this.pdvRepository.getNextId(),
       coverageArea,
       address,
       tradingName,

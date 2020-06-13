@@ -157,11 +157,6 @@
         "address"
       ],
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Pdv unique id",
-          "example": "0"
-        },
         "tradingName": {
           "type": "string",
           "description": "Pdv trading name",

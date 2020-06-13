@@ -3,6 +3,7 @@ class PdvModel {
     const schemaOptions = {
       collection: 'pdvs',
       versionKey: false,
+      timestamps: true,
     };
 
     const multiPolygonSchema = {
@@ -32,7 +33,7 @@ class PdvModel {
     const PdvSchema = new database.Schema(
       {
         id: {
-          type: String,
+          type: Number,
           required: true,
           unique: true,
         },

@@ -15,12 +15,7 @@ class GetNearestService {
       throw new NotCoveredArea();
     }
 
-    const {
-      distance,
-      ...nearestPdvWithoutDist
-    } = nearestPdv;
-
-    return { ...nearestPdvWithoutDist };
+    return nearestPdv;
   }
 }
 
