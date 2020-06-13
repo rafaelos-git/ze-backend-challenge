@@ -32,10 +32,11 @@ Create a .env file and set your local environment variables:
 ```sh
 cp .env-example .env
 ```
-Note that if your local MongoDB instance is not waiting for auth, the .env file must to be like this:
+Note that if your local MongoDB instance is not waiting for auth, you have to delete the DB_USER and DB_PASS variables. Your .env file will be like this:
 ```sh
 PORT=<app_port>
-DB_URL='mongodb://localhost:27017/<db_name>'
+DB_URL='mongodb://localhost:27017/'
+DB_NAME='<db_name>'
 ```
 
 ### Database
@@ -45,6 +46,12 @@ yarn database:seed
 ```
 
 ### Test
+Create the file .env.test using.
+```sh
+cp .env-example .env.test
+```
+It's important to set another database to make tests. If your database do not use auth, delete the  authentication variables as the .env file:
+
 You can integrations tests using
 ```sh
 yarn test

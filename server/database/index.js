@@ -8,6 +8,7 @@ const mongoOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  dbName: process.env.DB_NAME,
 };
 
 if (process.env.DB_USER) {
@@ -16,10 +17,6 @@ if (process.env.DB_USER) {
 
 if (process.env.DB_PASS) {
   mongoOptions.pass = process.env.DB_PASS;
-}
-
-if (process.env.DB_NAME) {
-  mongoOptions.dbName = process.env.DB_NAME;
 }
 
 mongoose.connect(process.env.DB_URL, mongoOptions);
