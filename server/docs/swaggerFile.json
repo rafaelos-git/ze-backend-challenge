@@ -17,17 +17,11 @@
   "paths": {
     "/v1/pdvs": {
       "post": {
-        "tags": [
-          "pdvs"
-        ],
+        "tags": ["pdvs"],
         "summary": "Create a new pdv",
         "operationId": "createPdv",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -72,9 +66,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "pdvs"
-        ],
+        "tags": ["pdvs"],
         "summary": "Finds a pdv by its id",
         "operationId": "findPdvById",
         "responses": {
@@ -117,9 +109,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "pdvs"
-        ],
+        "tags": ["pdvs"],
         "summary": "Search nearest pdv considering each pdv's coverage area",
         "operationId": "getNearestPdv",
         "responses": {
@@ -148,14 +138,7 @@
   "definitions": {
     "Pdv": {
       "type": "object",
-      "required": [
-        "id",
-        "tradingName",
-        "ownerName",
-        "document",
-        "coverageArea",
-        "address"
-      ],
+      "required": ["id", "tradingName", "ownerName", "document", "coverageArea", "address"],
       "properties": {
         "tradingName": {
           "type": "string",
@@ -183,7 +166,25 @@
             },
             "coordinates": {
               "type": "array",
-              "example": [[[[30, 20], [45, 40], [10, 40], [30, 20]]], [[[15, 5], [40, 10], [10, 20], [5, 10], [15, 5]]]],
+              "example": [
+                [
+                  [
+                    [30, 20],
+                    [45, 40],
+                    [10, 40],
+                    [30, 20]
+                  ]
+                ],
+                [
+                  [
+                    [15, 5],
+                    [40, 10],
+                    [10, 20],
+                    [5, 10],
+                    [15, 5]
+                  ]
+                ]
+              ],
               "items": {
                 "type": "array",
                 "items": {
